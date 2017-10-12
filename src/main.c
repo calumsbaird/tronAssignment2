@@ -1,6 +1,6 @@
 #include<stdio.h>
 
 int main (void) {
-	printf("test\n");
+	printf("inside calc\n");
 	return 0;
 }
