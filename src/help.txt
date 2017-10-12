@@ -1,0 +1,5 @@
+^ exponentiation
++ addition
+- subtraction
+* multiplication
+/ division

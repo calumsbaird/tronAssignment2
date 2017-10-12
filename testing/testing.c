@@ -1,14 +1,14 @@
-#include "testing.h"
+#include "calc.h"
 
-
-int test_function () {
-	//assert();
-	return 0;
-}
-
-
+// Testing harness, ensure no spaces are entered in your input
 int main(void) {
 	
-	printf("All tests passed!");
+	// Check input
+	//checkInput("asd");
+	assert(checkInput("1+1 ") == 1);
+	
+	
+	
+	printf("All tests passed!\n");
 	return 0;
 }
