@@ -7,9 +7,9 @@ int checkInput (char * input_string) {
 		//printf("%c|", *input_string);
 		
 		// Check for invalid characters
-		char * validChar = "0123456789.-+/e^()";
+		char * validChar = "0123456789.-+*/e^()";
 		if (isCharInString(validChar, *input_string) == 0) {
-			
+			//printf("invalid characters\n");
 			// Return error state if invalid
 			//error();
 			return 1;

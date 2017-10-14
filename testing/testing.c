@@ -6,6 +6,7 @@ int main(void) {
 	// Check input
 	//assert(strcmp(simplifyInput("1 +  E5 "),"1+e5"));
 	assert(checkInput("1+1") == 0);
+	assert(checkInput("2*3") == 0);
 	assert(checkInput("1++1") == 1);
 	assert(checkInput("1+e5") == 1);
 	assert(checkInput("1+e") == 1);

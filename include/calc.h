@@ -21,3 +21,6 @@ void removeChar(char *, char);
 
 // calc.c headers
 int calc(char *);
+int push(char **, char *);
+void printStack(char **);
+int pushString (char * string, char character);
