@@ -8,7 +8,13 @@ void simplifyInput(char * user_input) {
 	*pos = '\0';
 	
 	// Remove the spaces from the input
-	removeChar(user_input, ' ');	
+	removeChar(user_input, ' ');
+	
+	// Make input lowercase (to deal with E & e)
+	do {
+			*user_input = tolower(*user_input);
+	}
+	while (*user_input++);
 }
 
 void removeChar(char * string, char garbage) {

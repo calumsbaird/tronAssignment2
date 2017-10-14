@@ -21,7 +21,6 @@ int main (void) {
 		// If single character input
 		int length = strlen(user_input);
 		if (length == 1) {
-			
 			// If user wants to quit
 			if (*user_input == 'q') {
 				quit();
@@ -33,9 +32,16 @@ int main (void) {
 			}
 		}
 		
-		
+		//printf("%s\n", user_input);
 		// Check the input
-		checkInput(user_input);
+		if (checkInput(user_input) == 1) {
+			error();
+			free(user_input); // Unallocate memory for next pass
+			continue;
+		}
+		
+		// Parse the string to calc.c to be processed
+		calc(user_input);
 		
 		//printf("user input: %s\n", user_input);
 		

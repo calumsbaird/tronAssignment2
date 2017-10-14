@@ -10,7 +10,7 @@ INC_DIR = include
 TEST_DIR = testing
 _DEPS = calc.h
 
-OBJECTFILES = calc.o checkInput.o simplifyInput.o
+OBJECTFILES = calc.o checkInput.o simplifyInput.o auxiliary.o
 _OBJS = main.o $(OBJECTFILES)
 TEST = testing/testing.c
 
