@@ -31,7 +31,7 @@ int main (void) {
 				help();
 			}
 		}
-		
+		/*
 		//printf("%s\n", user_input);
 		// Check the input
 		if (checkInput(user_input) == 1) {
@@ -39,7 +39,7 @@ int main (void) {
 			free(user_input); // Unallocate memory for next pass
 			continue;
 		}
-		
+		*/
 		// Parse the string to calc.c to be processed
 		calc(user_input);
 		

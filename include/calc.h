@@ -24,3 +24,6 @@ int calc(char *);
 int push(char **, char *);
 void printStack(char **);
 int pushString (char * string, char character);
+void createInfix(char * user_input, char **);
+double evaluateStack(char ** stack);
+void infixToPostfix(char**, char**);
