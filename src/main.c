@@ -43,6 +43,24 @@ int main (void) {
 		// Parse the string to calc.c to be processed
 		calc(user_input);
 		
+		/*
+		char ** infix_stack, ** postfix_stack;
+		int stack_length = 2048;
+		infix_stack =  malloc(stack_length*sizeof(char*));
+		*infix_stack = "1";
+		*(infix_stack+1) = "*";
+		*(infix_stack+2) = "2";
+		*++infix_stack = "+";
+		*++infix_stack = "3";
+		
+		postfix_stack = malloc(stack_length*sizeof(char*));
+		
+		printStack(infix_stack);
+		printf("test\n");
+		
+		infixToPostfix(infix_stack, postfix_stack);
+		*/
+		
 		//printf("user input: %s\n", user_input);
 		
 		free(user_input);

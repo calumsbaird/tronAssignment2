@@ -22,8 +22,11 @@ void removeChar(char *, char);
 // calc.c headers
 int calc(char *);
 int push(char **, char *);
+char peekString(char * string);
+char popString(char * string);
 void printStack(char **);
 int pushString (char * string, char character);
 void createInfix(char * user_input, char **);
 double evaluateStack(char ** stack);
 void infixToPostfix(char**, char**);
+int isOperator(char * input);

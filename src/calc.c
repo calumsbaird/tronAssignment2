@@ -9,12 +9,13 @@ int calc(char * user_input) {
 	
 	
 	createInfix(user_input, infix_stack);
+	//printf("test\n");
 	infixToPostfix(infix_stack, postfix_stack);
-	
+	//printf("test\n");
 	printf("stack addr: %p\n", infix_stack);
 	
-	printStack(infix_stack);
-	printStack(postfix_stack);
+	//printStack(infix_stack);
+	//printStack(postfix_stack);
 	
 	return 0;
 }
@@ -25,7 +26,7 @@ int push(char ** stack, char *string) {
 		//printf("value at stack |%s|\n", *stack);
 		if (*stack == NULL) {
 			//printf("firing null\n");
-			int stack_element_length = 16;
+			int stack_element_length = 100;
 			*stack = malloc(stack_element_length*sizeof(char));
 			*stack = string;
 			return 0;
@@ -39,8 +40,24 @@ int push(char ** stack, char *string) {
 	return 0;
 }
 
+char peekString(char * string) {
+	while (*string) {
+		string++;
+	}
+	return *(string-1);
+}
 
-int pushString (char * string, char character) {
+char popString(char * string) {
+	while (*string) {
+		string++;
+	}
+	char temp = *(string-1);
+	*(string-1) = '\0';
+	return temp;
+}
+
+
+int pushString(char * string, char character) {
 	//printf("value at string |%c|\n", *string);
 	while (1) {
 		
@@ -80,6 +97,12 @@ void createInfix(char * user_input, char ** stack) {
 		pushString(string, *user_input);
 		user_input++;
 	}
+	else if (*user_input == '(') {
+		pushString(string, *user_input);
+		push(stack, string);
+		string = malloc(stack_element_length*sizeof(char));
+		user_input++;
+	}
 
 	// Go through the user input
 	while (*user_input) {
@@ -95,6 +118,15 @@ void createInfix(char * user_input, char ** stack) {
 			// Put the operator on the stack
 			push(stack,string);
 			// Wipe the string
+			string = malloc(stack_element_length*sizeof(char));
+		}
+		// if format 1+(3*5) two operators in a row
+		else if (isCharInString("()", *(user_input)) && isCharInString("+-/*^()", *(user_input-1)) == 1) {
+			//push(stack, string);
+			string = malloc(stack_element_length*sizeof(char));
+			pushString(string, *user_input);
+			push(stack, string);
+			string = malloc(stack_element_length*sizeof(char));
 			string = malloc(stack_element_length*sizeof(char));
 		}
 		// if format 1e-5
@@ -138,24 +170,133 @@ double evaluateStack(char ** stack) {
 	return 0;
 }
 int precedence(char symbol) {
-	return 0;
+	
+	/*if (symbol == '\0') {
+		return 5;
+	}*/
+	if (symbol == '(') {
+		return 4;		
+	}
+	else if (symbol == '^') {
+		return 3;
+	}
+	else if (symbol == '*' || symbol == '/') {
+		return 2;
+	}
+	else if (symbol == '+' || symbol == '-') {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
 
 void infixToPostfix (char ** infix_stack, char ** postfix_stack) {
+	
+	// Define an operator stack to temporarily hold operators
 	char * operator_stack;
 	operator_stack = malloc(100*sizeof(char));
-	printf("runnning\n");
+
+	//printf("length: %ld\n", strlen(*infix_stack));
+	//printf("is operator:  %d\n", isOperator(*infix_stack));
+	
+	int count = 0;
 	while (*infix_stack) {
-		
-		if (**infix_stack == '(') {
-			printf("openbracket\n");
-			// Push the bracket to the operator stack
-			pushString(operator_stack, **infix_stack);
+		//printf("infix stack ---- %s\n", *infix_stack);
+		count++;
+		// If an operator
+		if (isOperator(*infix_stack)) {
+			
+			// If stack empty
+			if (peekString(operator_stack) == '\0') {
+				//printf("fire*|%c|\n", **infix_stack);
+				// Push the operator onto the stack
+				pushString(operator_stack, ** infix_stack);
+			}
+			// If the current operator is larger than the operator at the top of the string
+			else if (precedence(**infix_stack) > precedence(peekString(operator_stack))) {
+				
+				// Push the operator onto the stack
+				pushString(operator_stack, ** infix_stack);
+			}
+			else if (precedence(**infix_stack) <= precedence(peekString(operator_stack))) {
+				
+				printf("the fuxk is infix : |%c|", **infix_stack);
+				// Loop through the operator stack from the top
+				while (precedence(**infix_stack) <= precedence(peekString(operator_stack)) /*&& peekString(operator_stack) != '\0'*/) {
+					
+					//printf("count: %d", count);
+					//printf("operators: %s\n", operator_stack);
+					
+					// Pop last operator from stack to post_fix
+					char temp[2] = "\0";
+					temp[0] = popString(operator_stack);
+					push(postfix_stack, temp);			
+				}
+				
+				//printf("TESSSTTTT : |%s|", *operator_stack);
+				
+				/*
+				// If the operator stack is empty
+				if (*operator_stack == NULL) {
+					//printf("hoorah");
+					//printf("the fuxk is infix : |%c|", **infix_stack);
+					// Put the operator at the end of the postfix
+					char temp[2] = "\0";
+					temp[0] = **infix_stack;
+					
+					
+					push(postfix_stack, temp);
+					//pushString(operator_stack, **infix_stack);
+				}
+				
+				*/
+				// Otherwise add it to the operator stack
+				//else {
+					// Push the character to the operator stack
+					//printf("HELLO\n");
+					pushString(operator_stack, **infix_stack);
+				//}
+				
+				//printf("||%c||", popString(operator_stack));
+				
+				//push(postfix_stack, "hello");
+			}
+			
 		}
-		else if (**infix_stack ==
-		//else if (
 		
+		// Otherwise must be a number so put it on the stack
+		else {
+
+			push(postfix_stack, *infix_stack);
+			printf("test int\n");
+			//printStack(postfix_stack);
+			
+		}
 		infix_stack++;
 	}
-	printf("operator_stack: |%s|", operator_stack);
+	
+	printStack(postfix_stack);
+	printf("operator_stack: |%s|\n", operator_stack);
+	// Push the final character onto the string
+	//printf("||%c||", popString(operator_stack));
+	char temp[2] = "\0";
+	//temp[0] = popString(operator_stack);
+	temp[0] = '+';
+	push(postfix_stack, "4");
+	
+
+	printf("count: %d", count);
+	//prinnt
+	printf("postfix: \n");
+	printStack(postfix_stack);
+	printf("operator_stack: |%s|\n", operator_stack);
+}
+
+int isOperator(char * input) {
+	if (strlen(input) == 1 && isCharInString("+-*/^()", *input)) {
+		return 1;
+	}
+	else 
+		return 0;
 }
