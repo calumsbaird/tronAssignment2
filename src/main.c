@@ -50,8 +50,8 @@ int main (void) {
 		*infix_stack = "1";
 		*(infix_stack+1) = "*";
 		*(infix_stack+2) = "2";
-		*++infix_stack = "+";
-		*++infix_stack = "3";
+		*(infix_stack+3) = "+";
+		*(infix_stack+4) = "3";
 		
 		postfix_stack = malloc(stack_length*sizeof(char*));
 		
