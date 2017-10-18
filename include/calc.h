@@ -22,14 +22,19 @@ void removeChar(char *, char);
 
 // calc.c headers
 int calc(char *);
-int push(char **, char *);
-char peekString(char * string);
-char popString(char * string);
+int push(char * string, char * stack);
+char peek(char * string);
+
 void print2D(char **, int);
-int pushString (char * string, char character);
+//int pushString (char * string, char character);
 int createInfix(char * user_input, char **);
 double evaluateStack(char ** stack);
 int infixToPostfix(char**, int, char**);
 int isOperator(char * input);
 void free2D(char ** expression, int);
 void allocate2D(char ** expression, int expression_length);
+
+
+// auxiliary.c headers
+int precedence(char character);
+char pop(char * string);
