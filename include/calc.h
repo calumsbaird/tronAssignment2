@@ -29,7 +29,7 @@ void print2D(char **, int);
 int pushString (char * string, char character);
 int createInfix(char * user_input, char **);
 double evaluateStack(char ** stack);
-void infixToPostfix(char**, char**);
+int infixToPostfix(char**, int, char**);
 int isOperator(char * input);
 void free2D(char ** expression, int);
 void allocate2D(char ** expression, int expression_length);

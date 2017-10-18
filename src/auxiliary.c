@@ -57,9 +57,7 @@ void allocate2D(char ** expression, int expression_length) {
 		
 		//printf("pointer: %p\n", *(expression));
 		//printf("pointer: %p\n", *(expression+1));
-		expression[i] = malloc(sizeof(char) * expression_length);
-		
-	
+		*(expression+i) = malloc(sizeof(char) * expression_length);
 	}
 }
 
