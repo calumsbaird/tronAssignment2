@@ -14,7 +14,7 @@ int main (void) {
 		// Take input
 		char * user_input = malloc(100*sizeof(char));
 		fgets(user_input, BUF_SIZE, stdin);
-		
+				
 		// Simplify user input
 		simplifyInput(user_input);
 		
@@ -31,15 +31,7 @@ int main (void) {
 				help();
 			}
 		}
-		/*
-		//printf("%s\n", user_input);
-		// Check the input
-		if (checkInput(user_input) == 1) {
-			error();
-			free(user_input); // Unallocate memory for next pass
-			continue;
-		}
-		*/
+		
 		// Parse the string to calc.c to be processed
 		calc(user_input);
 		
@@ -53,7 +45,6 @@ int main (void) {
 		*(infix_stack+3) = "+";
 		*(infix_stack+4) = "3";
 		
-		postfix_stack = malloc(stack_length*sizeof(char*));
 		
 		printStack(infix_stack);
 		printf("test\n");

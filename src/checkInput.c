@@ -76,6 +76,11 @@ int checkInput (char * input_string) {
 
 int isCharInString (char * string, char character) {
 	
+	// If character is a null
+	if (character == '\0') {
+		return 0;
+	}
+	
 	int isPresent = 0;
 	//printf("character: %c\n", character);	
 	

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #define BUF_SIZE 2048
 
@@ -24,9 +25,11 @@ int calc(char *);
 int push(char **, char *);
 char peekString(char * string);
 char popString(char * string);
-void printStack(char **);
+void print2D(char **, int);
 int pushString (char * string, char character);
-void createInfix(char * user_input, char **);
+int createInfix(char * user_input, char **);
 double evaluateStack(char ** stack);
 void infixToPostfix(char**, char**);
 int isOperator(char * input);
+void free2D(char ** expression, int);
+void allocate2D(char ** expression, int expression_length);
