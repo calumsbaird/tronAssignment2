@@ -25,11 +25,11 @@ int calc(char *);
 int push(char * string, char * stack);
 char peek(char * string);
 
-void print2D(char **, int);
+void print2D(char *, int);
 //int pushString (char * string, char character);
-int createInfix(char * user_input, char **);
+int createInfix(char * user_input, char *);
 double evaluateStack(char ** stack);
-int infixToPostfix(char**, int, char**);
+int infixToPostfix(char*, int, char*);
 int isOperator(char * input);
 void free2D(char ** expression, int);
 void allocate2D(char ** expression, int expression_length);

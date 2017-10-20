@@ -29,12 +29,16 @@ void error(void) {
 	printf("Error: Illegal input!\n");
 }
 
-void print2D(char ** row, int expression_length) {
+void print2D(char * p_expression, int expression_length) {
+	
+	int element_length = 16;
+	
+	// Print 2d function
 	printf("|||||||||||||||||||\n");
 	
 	for (int i = 0; i < expression_length; i++) {
 		
-		printf("%p\t%s\n", row + i, row[i]);
+		printf("%p\t%s\n", p_expression + i*element_length, p_expression + i*element_length);
 	}
 	
 	printf("|||||||||||||||||||\n");
@@ -58,8 +62,30 @@ void allocate2D(char ** expression, int expression_length) {
 		
 		//printf("pointer: %p\n", *(expression));
 		//printf("pointer: %p\n", *(expression+1));
-		*(expression+i) = malloc(sizeof(char) * expression_length);
+		*(expression+i) = (char*)malloc(sizeof(char) * expression_length);
 	}
+	
+	
+	/*
+	char *x;  // Memory locations pointed to by x contain 'char'
+	char **y; // Memory locations pointed to by y contain 'char*'
+
+	x = (char*)malloc(sizeof(char) * 100);   // 100 'char'
+	y = (char**)malloc(sizeof(char*) * 100); // 100 'char*'
+	*/
+	// below is incorrect:
+	//y = (char**)malloc(sizeof(char) * 50 * 50);
+	// 2500 'char' not 50 'char*' pointing to 50 'char'
+	/*
+	*expression = calloc(expression_length, sizeof(char));
+
+	for (int ii = 0; ii < 50; ++ii) {
+		// Note that each string is just an OFFSET into the memory block
+		// You must be sensitive to this when using these 'strings'
+		**expression = &*expression[ii * 50];
+	}
+	printf("memorys allocated\n");
+	*/
 }
 
 int isOperator(char * input) {

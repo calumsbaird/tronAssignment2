@@ -2,35 +2,71 @@
 
 int calc(char * user_input) {
 	
-	// Define our sizes and create a 2d char array to store our processed expression
-	int element_length = 16, max_expression_length = 100;
-	char infix_expression[max_expression_length][element_length];
+	// Create an array of pointers
+	//char ** infix_expression; 
+	//char ** postfix_expression;
+	//int max_expression_length = 100;						// ONLY 10
+	//infix_expression =  malloc(max_expression_length*sizeof(char*));
+	//postfix_expression =  malloc(max_expression_length*sizeof(char*));
+	int infix_length, postfix_length;
 	
-	// Create a pointer to the address of the first element of the array
-	char *p_infix;
-	p_infix = &infix_expression[0][0];
+	//allocate2D(infix_expression, max_expression_length);
+	//allocate2D(postfix_expression, max_expression_length);
+	char infix_expression[100][100];
+	char string[] = "abcdefghijklmnop";
+	char *row;
+	row = &infix_expression[0][0];
+	int i = 0;
+	for (int r = 0; r < 10; r++) {
+		for (int c = 0; c < 10; c++) {
+			
+			infix_expression[r][c] = string[i];
+			i++;
+		}
+	}
 	
-	// Create our infix expression and store the value of its length
-	int infix_length;
-	infix_length = createInfix(user_input, p_infix);
+	//infix_expression[0][0] = "hello";
+	strcpy(infix_expression[0], "hello1");
+	strcpy(infix_expression[1], "hello2");
+	strcpy(infix_expression[2], "hello3");
+	strcpy(row+104, "hello4");
 	
-	// Print the infix_expression
-	print2D(p_infix, infix_length);
+	//char *p_infix = &infix_expression[0][0];
+	
+	int expression_length = 20;
+	// Print 2d function
+	printf("|||||||||||||||||||\n");
+	
+	for (int i = 0; i < expression_length; i++) {
+		
+		printf("%p\t%s\n", infix_expression[i], infix_expression[i]);
+	}
+	
+	printf("|||||||||||||||||||\n");
+	
+	printf("%s\n", row);
+	
+	//char postfix_expression[100][100];
+	//char *p_postfix = &postfix_expression[0][0];
+	
+	// Create an infix expression and return the no of terms
+	//infix_length = createInfix(user_input, p_infix);
+	//print2D(p_infix, infix_length);
 	
 	
-	// Create a postfix 2D char array
-	char postfix_expression[max_expression_length][element_length];
+	//printf("infix ength: %d\n", infix_length);
 	
-	// Create a pointer to the address of the first element of the array
-	char *p_postfix;
-	p_postfix = &postfix_expression[0][0];
+	// Turn the infix expression into a postfix expression
+	//postfix_length = infixToPostfix(infix_expression, infix_length, postfix_expression);
+	//strcpy(*postfix_expression, "1");
+	//print2D(postfix_expression, postfix_length);	
 	
-	// Create a postfix expression and store its length
-	int postfix_length;
-	postfix_length = infixToPostfix(p_infix, infix_length, p_postfix);
-	
-	// Print the postfix expression
-	print2D(p_postfix, postfix_length);
+	// Free dat memory
+	//free2D(infix_expression, max_expression_length);
+	//free(infix_expression);
+	//free2D(postfix_expression, max_expression_length);
+	//free(postfix_expression);
+	//free(postfix_expression);
 	
 	return 0;
 }
@@ -117,9 +153,9 @@ int createInfix(char * user_input, char * infix_expression) {
 			//printf("pushing string %s\n", p_string);
 			
 			// Copy the string to the infix_expression
-			strcpy(infix_expression, p_string);
+			//strcpy(*infix_expression[], p_string);
 			//infix_expression[0][0] = p_string;
-			infix_expression = infix_expression + element_length;
+			infix_expression++;
 
 
 			// Reallocate memory for the string
@@ -150,9 +186,7 @@ int createInfix(char * user_input, char * infix_expression) {
 	return expression_length;
 }
 
-int infixToPostfix (char * infix_expression, int infix_length, char * postfix_expression) {
-	
-	int element_length = 16;
+int infixToPostfix (char ** infix_expression, int infix_length, char ** postfix_expression) {
 	
 	// Counter for no of elements of our postfix stack
 	int postfix_length = 0;
@@ -169,10 +203,10 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 	int i = 0;
 	while (i < infix_length) {
 		
-		//printf("address we are writing: %p\n", *postfix_expression);
+		printf("address we are writing: %p\n", *postfix_expression);
 		
 		// If the element is an operator
-		if (isOperator(infix_expression) == 1) {
+		if (isOperator(*infix_expression) == 1) {
 			
 			
 			// If the stack is empty
@@ -180,22 +214,22 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 				//printf("case 1\n");
 				
 				// Push the character onto the stack
-				push(infix_expression, stack);
+				push(*(infix_expression), stack);
 				
 			}
 			// If the operator has higher precedence than the top of the stack
-			else if (precedence(*infix_expression) > precedence(peek(stack))) {
+			else if (precedence(*infix_expression[0]) > precedence(peek(stack))) {
 				//printf("case 2\n");
 				
 				// Put it on the stack
-				push(infix_expression, stack);
+				push(*(infix_expression), stack);
 				
 			}
 			// Otherwise the precedence must be less than or equal to the top of the stack
 			else {
 				//printf("case 3\n");
 				
-				while (precedence(*infix_expression) <= precedence(peek(stack))) {
+				while (precedence(*infix_expression[0]) <= precedence(peek(stack))) {
 					
 					// THIS WILL PROBABLY BREAK CHECK THE MEMORY ADDRESSES
 					// Make a temporary string to put on the postfix expression
@@ -206,11 +240,11 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 				//	printf("temp str: %s\n", str);
 					
 					// Put the top of the stack onto the expression
-					strcpy(postfix_expression, string);
+					*postfix_expression = string;
 					//printf("this potifx %s at %p\n", *postfix_expression, postfix_expression);
 					string[0] = '\0';
 					// Increment the expression pointer and length
-					postfix_expression = postfix_expression + element_length;
+					postfix_expression++;
 					//printf("address %p\n", *postfix_expression);
 					postfix_length++;
 
@@ -219,7 +253,7 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 				}
 				
 				// Put the infix operator onto the stack
-				push(infix_expression, stack);
+				push(*(infix_expression), stack);
 
 			}
 			
@@ -229,13 +263,13 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 			//printf("case 4\n");	
 			//printf("tesst1\n");
 			//*postfix_expression = "test";
-			strcpy(postfix_expression, infix_expression);
+			*postfix_expression = *infix_expression;
 			//strcpy(*postfix_expression, "1");
 			
 			//printf("test2\n");
 			
 			// Increment the expression pointer and length
-			postfix_expression = postfix_expression + element_length;
+			postfix_expression++;
 			postfix_length++;
 			//printf("test3\n");	
 		}
@@ -244,7 +278,7 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 		i++;
 		//printf("infix element: %s\n", *infix_expression);
 		//printf("test4\n");
-		infix_expression = infix_expression + element_length;
+		infix_expression++;
 		
 	}
 	
@@ -277,13 +311,12 @@ int infixToPostfix (char * infix_expression, int infix_length, char * postfix_ex
 		
 		// Pop the value off the stack
 		//str[0] = 'b';	// This is doing fucked hit in memory, make sure there is emory allocated to postix_expression
-		string[0] = pop(stack);
+		pop(stack);
 		
 		//printf("popped value: %s\n", str);	
 
 		// Put the top of the stack onto the expression
-		strcpy(postfix_expression, string);
-		string[0] = '\0';
+		*postfix_expression = "a";	
 		
 		//printf("postfix expression at this point:  %s\n", *postfix_expression);
 		//printf("postfix_expression count: %p", postfix_expression);
