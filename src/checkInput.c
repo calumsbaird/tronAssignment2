@@ -4,17 +4,15 @@ int checkInput (char * input_string) {
 	
 	// Go through the input
 	while (*input_string) {
-		//printf("%c|", *input_string);
 		
 		// Check for invalid characters
 		char * validChar = "0123456789.-+*/e^()";
 		if (isCharInString(validChar, *input_string) == 0) {
-			//printf("invalid characters\n");
+			
 			// Return error state if invalid
 			//error();
 			return 1;
 		}
-		
 		
 		// Check for two sequential operators (and whether scientific notation 'e' is use before or after an invalid operator)
 		char * initial_operators = "+-*/e";		
@@ -54,10 +52,27 @@ int checkInput (char * input_string) {
 		
 		// Check there isnt two sequential dp
 		if (*input_string == '.') {
+			/*
 			if (*(input_string + 1) == '.') {
 				return 1;
 			}
+			*/
+			// Go through all the characters from that point
+			int i = 1;
+			while (*(input_string + i)) {
+				
+				if (isCharInString("+-/*^()", *(input_string + i)) == 1) {
+					break;
+				}
+				else if (*(input_string + i) == '.') {
+					return 1;
+				}
+				
+				i ++;
+			}
 		}
+		
+	
 		
 		// Check the last character isnt an operator
 		// if the last character

@@ -1,0 +1,122 @@
+double calculate(char * postfix_expression, int postfix_length) {
+	
+	int element_length = 16;
+	
+	// Loop until we recieve a result
+	while(1) {
+		
+		char operator;
+		double operand2;
+		double operand1;
+		
+		// Get the operator
+		for (int i = 0; i < postfix_length; i++) {
+			
+			// If t
+			if (isCharInString("+-/*^", postfix_expression[i]) == 1) {
+				operator = postfix_expression[i];
+				break;
+			}
+			else {
+				potifix_expression += element_length;
+			}
+		}
+		
+		// The 2nd operand is the first non null string before the operator
+		// Go backwards from the operator
+		for (postfix_expression; ;postfix_expression -= element_length) {
+			
+			// If the expression doesnt start with a null character
+			if (postfix_expression[0] != '\0') {
+				operand2 = atof(postfix_expression);
+				
+				// Write the first element to null so that we skip over it on the next pass
+				postfix_expression[0] = '\0';
+				break;
+			}
+		}
+		
+		// The first operand is the first non null string before the second operand
+		for (postfix_expression; ;postfix_expression -= element_length) {
+			
+			// If the expression doesnt start with a null character
+			if (postfix_expression[0] != '\0') {
+				operand1 = atof(postfix_expression);
+				
+				// Calculate the total
+				
+				// Write the first element to null so that we skip over it on the next pass
+				postfix_expression[0] = '\0';
+				break;
+			}
+		}
+	}
+	
+	// Now the last value of the postfix_expression should be our total
+	double total = atof(postfix_expression - element_length);
+	
+	return total;
+}
+
+double calculate(char * postfix_expression, int postfix_length) {
+	
+	int element_length = 16;
+	
+	for (int i = 0; i < postfix_length; i++) {
+		
+		// If the character is an operator
+		if (isOperator(postfix_expression) == 1) {
+			
+			// Define our operator
+			char operator = postfix_expression[0];
+			double partial = 0;
+			
+			// Get our operands from the two previous values
+			double operand1 = atof(postfix_expression - 2*element_length);
+			//printf("op 1:%p, %s\n", postfix_expression - 2*element_length, postfix_expression - 2*element_length);
+			printf("operand 1: %lf\n", atof(postfix_expression - 2*element_length));
+			double operand2 = atof(postfix_expression - element_length);
+			printf("operand 2: %lf\n", atof(postfix_expression - element_length));
+			
+			// Calculate our partial total
+			//partial = operand1 + operand2;
+			switch (operator) {
+				case '+':
+					partial = operand1 + operand2;
+					break;
+				case '-':
+					partial = operand1 - operand2;
+					break;
+				case '*':
+					partial = operand1 * operand2;
+					break;
+				case '/':
+					partial = operand1 / operand2;
+					break;
+				case '^':
+					partial = pow(operand1, operand2);
+					break;
+				default:
+					printf("error in calculation\n");
+					break;					
+			}
+						
+			// Convert the partial total back into a string
+			char partial_string[element_length];
+			snprintf(partial_string, element_length, "%f", partial);
+
+			//printf("partial string: %s\n", partial_string);
+			
+			
+			// Put the partial total back into the postfix_expression
+			strcpy(postfix_expression, partial_string);
+			
+		}
+		postfix_expression = postfix_expression + element_length;
+	}
+	
+	// Now the last value of the postfix_expression should be our total
+	double total = atof(postfix_expression - element_length);
+	
+	return total;
+}

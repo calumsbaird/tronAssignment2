@@ -55,40 +55,55 @@ void free2D(char ** expression, int expression_length) {
 	}
 }
 
-void allocate2D(char ** expression, int expression_length) {
+int convertScientific(char * user_input) {
 	
-	for (int i = 0; i < expression_length; i++) {
+	char * p_input = user_input;
+	
+	// Copy user input to another string
+	char * copy;
+	copy = malloc(100*sizeof(char));
+	
+	char * p_copy = copy;
+	while (*p_input) {
+		*p_copy = *p_input;
 		
-		
-		//printf("pointer: %p\n", *(expression));
-		//printf("pointer: %p\n", *(expression+1));
-		*(expression+i) = (char*)malloc(sizeof(char) * expression_length);
+		p_input++;
+		p_copy++;
 	}
 	
+	//printf("usr input: %s\n", user_input);
+	//printf("copy: %s\n", copy);
 	
-	/*
-	char *x;  // Memory locations pointed to by x contain 'char'
-	char **y; // Memory locations pointed to by y contain 'char*'
-
-	x = (char*)malloc(sizeof(char) * 100);   // 100 'char'
-	y = (char**)malloc(sizeof(char*) * 100); // 100 'char*'
-	*/
-	// below is incorrect:
-	//y = (char**)malloc(sizeof(char) * 50 * 50);
-	// 2500 'char' not 50 'char*' pointing to 50 'char'
-	/*
-	*expression = calloc(expression_length, sizeof(char));
-
-	for (int ii = 0; ii < 50; ++ii) {
-		// Note that each string is just an OFFSET into the memory block
-		// You must be sensitive to this when using these 'strings'
-		**expression = &*expression[ii * 50];
+	p_copy = copy;
+	p_input = user_input;
+	
+	char scientific[] = "*10^";
+	while (*p_copy) {
+		
+		if (*p_copy == 'e') {
+			
+			for (int i = 0; i < strlen(scientific); i++) {
+				*p_input = scientific[i];
+				p_input++;
+			}
+			//p_input	++;
+			p_copy++;
+		}
+		else {
+			*p_input = *p_copy;
+			p_input++;
+			p_copy++;
+		}
 	}
-	printf("memorys allocated\n");
-	*/
+
+	//printf("usr input: %s\n", user_input);
+	//printf("copy: %s\n", copy);
+	
+	return 0;
 }
 
 int isOperator(char * input) {
+	
 	if (strlen(input) == 1 && isCharInString("+-*/^()", *input)) {
 		return 1;
 	}
@@ -120,13 +135,12 @@ int push(char * string, char * stack) {
 int precedence(char character) {
 	
 	char symbol = character;
-	/*if (symbol == '\0') {
-		return 5;
-	}*/
+	/*
 	if (symbol == '(') {
 		return 4;		
 	}
-	else if (symbol == '^') {
+	*/
+	if (symbol == '^') {
 		return 3;
 	}
 	else if (symbol == '*' || symbol == '/') {

@@ -1,3 +1,4 @@
+Simple Calculator understands the following arithmetic operations:
 ^ exponentiation
 + addition
 - subtraction

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-g -Wall -std=c99 -Iinclude
+CFLAGS=-g -Wall -std=c99 -Iinclude -lm
 LIBS=
 TARGET=calc
 TESTTARGET=test
@@ -25,7 +25,7 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(LIBS) 
+	$(CC) -o $@ $(OBJS) $(LIBS) $(CFLAGS)
 
 $(TESTTARGET): $(TESTOBJS)
 	$(CC) -o $@ $(TEST) $(TESTOBJS) $(CFLAGS)

@@ -14,46 +14,51 @@ int main (void) {
 		// Take input
 		char * user_input = malloc(100*sizeof(char));
 		fgets(user_input, BUF_SIZE, stdin);
-				
+		
 		// Simplify user input
 		simplifyInput(user_input);
 		
-		// If single character input
+		// If single character input user
 		int length = strlen(user_input);
+		
 		if (length == 1) {
+			
 			// If user wants to quit
 			if (*user_input == 'q') {
+				
 				quit();
 				return 0;
 			}		
 			// If user wants help
 			else if (*user_input == 'h') {
+				
 				help();
+				
+				// Free the memory for the next pass
+				free(user_input);
+				continue;
 			}
 		}
 		
-		// Parse the string to calc.c to be processed
-		calc(user_input);
+		// Check input
+		if (checkInput(user_input) == 1) {
+			
+			// Print our error message
+			error();
+			
+			// Free memory for next pass
+			free(user_input);
+			continue;
+		}
 		
-		/*
-		char ** infix_stack, ** postfix_stack;
-		int stack_length = 2048;
-		infix_stack =  malloc(stack_length*sizeof(char*));
-		*infix_stack = "1";
-		*(infix_stack+1) = "*";
-		*(infix_stack+2) = "2";
-		*(infix_stack+3) = "+";
-		*(infix_stack+4) = "3";
+		// No need to convert scientific as atof deals with scientific anywayzz
+		// Convert from scientific notation e -> *10^
+		//convertScientific(user_input);
 		
+		// Parse the string to calc.c to be processed and calculated
+		calc(user_input);	
 		
-		printStack(infix_stack);
-		printf("test\n");
-		
-		infixToPostfix(infix_stack, postfix_stack);
-		*/
-		
-		//printf("user input: %s\n", user_input);
-		
+		// Free dat memz
 		free(user_input);
 	}
 	

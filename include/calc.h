@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <math.h>
 
 #define BUF_SIZE 2048
 
@@ -19,6 +20,7 @@ int isCharInString (char *, char);
 // simplifyInput.c headers
 void simplifyInput(char *);
 void removeChar(char *, char);
+void addStar(char * user_input);
 
 // calc.c headers
 int calc(char *);
@@ -32,7 +34,8 @@ double evaluateStack(char ** stack);
 int infixToPostfix(char*, int, char*);
 int isOperator(char * input);
 void free2D(char ** expression, int);
-void allocate2D(char ** expression, int expression_length);
+int convertScientific(char *);
+double calculate(char *, int);
 
 
 // auxiliary.c headers
