@@ -45,6 +45,7 @@ void removeChar(char * string, char garbage) {
 	*pout = '\0';
 }
 
+// This function adds the asterisk before opening brackets if no operator has been specified
 void addStar(char * user_input) {	
 	
 	// Point to the first element of the input
@@ -57,7 +58,7 @@ void addStar(char * user_input) {
 	// Point to our copy string
 	char * p_copy = copy;
 	
-	// Go through the input
+	// Go through the input and copy it
 	while (*p_input) {
 		
 		// Copy the value
@@ -70,21 +71,28 @@ void addStar(char * user_input) {
 	// Add the null character to the end
 	*p_copy = '\0';
 	
+	// Point back to the first elements
 	p_copy = copy;
 	p_input = user_input;
 	
+	// Characters to replace '(' with
 	char insert[] = "*(";
+	
+	// Go through copy
 	while (*p_copy) {
 		
+		// If there is an opening bracket and there is no operator before
 		if (*p_copy == '(' && isCharInString("+-/*^", *(p_copy - 1)) == 0 && *(p_copy - 1) != '\0') {
-			//printf("adding *(\n");
+			
+			// Add the insert characters '*(' to the input
 			for (int i = 0; i < strlen(insert); i++) {
 				*p_input = insert[i];
 				p_input++;
 			}
-			//p_input	++;
+			
 			p_copy++;
 		}
+		// Otherwise we just want to copy the values
 		else {
 			*p_input = *p_copy;
 			p_input++;
@@ -94,8 +102,9 @@ void addStar(char * user_input) {
 	
 	//printf("usr input: |%s|\n", user_input);
 	//printf("copy: |%s|\n", copy);
+	
+	// Free the copy memory and assign a null pointer so we dont use it later
 	free(copy);
 	copy = NULL;
 	
-	//return 0;
 }

@@ -1,5 +1,6 @@
 #include "calc.h"
 
+// This function returns 1 for an error and 0 if the function is fine
 int checkInput (char * input_string) {
 	
 	// Go through the input
@@ -9,24 +10,24 @@ int checkInput (char * input_string) {
 		char * validChar = "0123456789.-+*/e^()";
 		if (isCharInString(validChar, *input_string) == 0) {
 			
-			// Return error state if invalid
-			//error();
+			// Return error
 			return 1;
 		}
 		
 		// Check for two sequential operators (and whether scientific notation 'e' is use before or after an invalid operator)
-		char * initial_operators = "+-*/e";		
+		char * initial_operators = "+-*/e";
+		
 		// Go through operators
 		while (*initial_operators){
-		//do { 
 			
-			//printf("%c", *initial_operators);
+			// If an operator
 			if (*input_string == *initial_operators) {
 				
 				// Check the next operator
-				//printf("cehcking next operator\n");
 				char * secondary_invalid_operators = "+*/e"; // note that two operators in a row is valid if the second is a '-' (indicating negative)
 				if (isCharInString(secondary_invalid_operators, *(input_string+1)) == 1) {
+					
+					// Return error
 					return 1;
 				}
 			}
@@ -39,32 +40,34 @@ int checkInput (char * input_string) {
 			char * valid_after = "-0123456789"; // '-' is valid after eg. 10e-5
 			char * valid_before = " 0123456789"; // ' ' included to make strings same length
 
-			//int is_valid_before = 0, is_valid_after = 0; // 'boolean' constants
-			//printf("before and after e\n");	
-			if (isCharInString(valid_before, *input_string) == 1) {
+			// Check the characters before and after to see if they are valid
+			if (isCharInString(valid_before, *(input_string-1)) == 0) {
+				
+				// Return error if not valid
 				return 1;
 			}
-
-			if (isCharInString(valid_after, *input_string) == 1) {
+			if (isCharInString(valid_after, *(input_string+1)) == 0) {
+				
+				// Return error if not valid
 				return 1;
 			}
 		}
 		
 		// Check there isnt two sequential dp
 		if (*input_string == '.') {
-			/*
-			if (*(input_string + 1) == '.') {
-				return 1;
-			}
-			*/
+
 			// Go through all the characters from that point
 			int i = 1;
 			while (*(input_string + i)) {
 				
+				// If we find an operator there isnt 2 sequential dps
 				if (isCharInString("+-/*^()", *(input_string + i)) == 1) {
+					
 					break;
 				}
+				// Otherwise if we find a second dp first return an error
 				else if (*(input_string + i) == '.') {
+					
 					return 1;
 				}
 				
@@ -72,42 +75,20 @@ int checkInput (char * input_string) {
 			}
 		}
 		
-	
-		
 		// Check the last character isnt an operator
-		// if the last character
+		// If the last character
 		if (*(input_string + 1) == '\0') { 
 			
 			// If an operator
 			char * operators = "+-/*";
 			if (isCharInString (operators, *input_string)) {
+				
 				return 1; // Return an error
 			}
 		}
+		
+		// Go to next element of the string
 		input_string++;
 	}
 	return 0;	
-}
-
-int isCharInString (char * string, char character) {
-	
-	// If character is a null
-	if (character == '\0') {
-		return 0;
-	}
-	
-	int isPresent = 0;
-	//printf("character: %c\n", character);	
-	
-	// Go through the string until '\0'
-	while (*string) {
-		
-		if (character == *string) {
-			isPresent = 1;
-		}
-		//printf("string: %c\n", *string);
-		string++;
-	}
-	//printf("isPresent: %d\n", isPresent);
-	return isPresent;
 }

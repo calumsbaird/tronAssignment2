@@ -12,7 +12,7 @@ int main (void) {
 		printf(">>> ");
 		
 		// Take input
-		char * user_input = malloc(100*sizeof(char));
+		char * user_input = malloc(1024*sizeof(char));
 		fgets(user_input, BUF_SIZE, stdin);
 		
 		// Simplify user input
